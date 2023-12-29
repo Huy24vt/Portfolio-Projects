@@ -149,8 +149,4 @@ RFM.head()
 RFM.to_csv('RFM_table.csv', index=False)
 
 
-# In[ ]:
-
-
-
 
