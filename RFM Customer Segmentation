@@ -1,4 +1,1 @@
-The purpose of this analysis is to segment customers into categories and address two key questions: (1) From which segments does 80% of our revenue originate? and (2) Which segments contribute most significantly to our overall revenue? By answering these questions, we can make informed decisions to enhance our business and formulate effective marketing strategies.
-I use AdventureWork dataset for this analysis
-Since this is a straightforward analysis, I will directly import data into Power BI and create DAX functions along with other relevant columns.
-You can access the report here: https://app.powerbi.com/view?r=eyJrIjoiM2E0N2NjMWItOGQ0OC00YzZiLTkxODQtNWNjY2EwNzU5ZDdjIiwidCI6IjJmODVkYzc0LWI2YjQtNDU4NC1iZWVlLWNjZGE3MTQ0NDk3MCIsImMiOjZ9
+
