@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# In[2]:
-
-
 #Import packages and load data
 import numpy as np
 import pandas as pd
@@ -19,58 +15,26 @@ data_ = pd.read_excel(r"C:\Users\ACER\Downloads\online+retail\Online Retail.xlsx
 data = data_.copy()
 data.head()
 
-
-# In[4]:
-
-
 # Handle missing data
 data.isnull().sum()
-
-
-# In[5]:
-
 
 # I intend to perform RFM segmentation. If the CustomerID is null, I won't be able to proceed with the anlysis.
 data.dropna(inplace=True)
 
-
-# In[7]:
-
-
 #Inspect data types
 data.info()
-
-
-# In[8]:
-
 
 #Now, let's proceed to review the descriptive statistics of the data
 data.describe()
 
-
-# In[9]:
-
-
 #I noticed some odd numbers in the data: negative quantities in Quantity column and zeros in Price column
 data[data["Quantity"]<0]
-
-
-# In[11]:
-
 
 #It appears that negative quantities are canceled invoices, we will exclude those entries from the data.
 data = data[data["Quantity"]>0]
 
-
-# In[16]:
-
-
 #And I will retain only transactions with a UnitPrice greater than 0
 data = data[data["UnitPrice"]>0]
-
-
-# In[24]:
-
 
 #Now, let's remove the outlier from Quantity and Price column
 def outlier_threshold(dataframe,variable):
@@ -90,10 +54,6 @@ cols = ["Quantity", "UnitPrice"]
 for col in cols:
     replace_outlier(data,col)
 
-
-# In[29]:
-
-
 #And I will add some column for future use
 data["Revenue"] = data["Quantity"] * data["UnitPrice"]
 data["Day"] = data["InvoiceDate"].dt.day_name()
@@ -101,19 +61,10 @@ data["Year"] = data["InvoiceDate"].dt.year
 data["Month"] = data["InvoiceDate"].dt.month_name()
 data["Hour"] = data["InvoiceDate"].dt.hour
 
-
-# In[27]:
-
-
 #Let's review the descriptive statistics of the data
 data.describe()
 
 #Everything seems okay, so we will head to EDA step
-
-
-# In[32]:
-
-
 #EDA
 #We will answer few questions here:
 #(1) What is the overall sales?
@@ -129,10 +80,6 @@ plt.ylabel("Sales")
 plt.legend()
 plt.show()
 
-
-# In[43]:
-
-
 #(2) How do sales vary on a weekly basis?
 data["Last Order"] = data["InvoiceDate"]
 Sales_weekly = data.resample("w",on="Last Order").size()
@@ -142,10 +89,6 @@ fig.update_layout(title_text="Number of Sales Weekly",
                  title_x = 0.5, title_font=dict(size=18))
 fig.show()
 
-
-# In[45]:
-
-
 #(3) How do sales vary on an hourly basis?
 RushHours = data.groupby("Hour").count().reset_index()
 plt.plot(RushHours["Hour"],RushHours["Revenue"])
@@ -154,18 +97,10 @@ plt.xlabel("Hours")
 plt.ylabel("Sales")
 plt.show()
 
-
-# In[47]:
-
-
 #(4) Which days of the week have the highest sales performance?
 DOW = data.groupby("Day").sum()["Revenue"].reset_index()
 sns.barplot(data=DOW,x="Revenue",y="Day",palette="coolwarm")
 plt.show()
-
-
-# In[71]:
-
 
 #Now I will perform RFM Segmentation
 # First I will create RFM table
@@ -178,20 +113,12 @@ RFM = data.groupby('CustomerID').agg({
 RFM.columns = ["ID","Recency","Frequency","Monetary"]
 RFM.head()
 
-
-# In[72]:
-
-
 #Caculate R-F-M Score and caculate RFM Score
 RFM["Recency_Score"] = pd.qcut(RFM["Recency"],5,labels=[5,4,3,2,1])
 RFM['Frequency_Score'] = pd.qcut(RFM['Frequency'].rank(method ='first') ,5 , labels= [1,2,3,4,5])
 RFM["Monetary_Score"] = pd.qcut(RFM["Monetary"],5,labels=[1,2,3,4,5])
 RFM["RFM_Score"] = (RFM["Recency_Score"].astype(str) + RFM["Frequency_Score"].astype(str) + RFM["Monetary_Score"].astype(str))
 RFM.head()
-
-
-# In[73]:
-
 
 #Our Customer Segmentation
 seg_map = {
@@ -206,10 +133,6 @@ r'5[4-5][1-5]' : 'Champions',
 }
 RFM['Segment'] = RFM['RFM_Score'] .replace(seg_map ,regex =True)
 
-
-# In[74]:
-
-
 #Bar Plot for Our segments
 Segments = (RFM['Segment'].value_counts(normalize=True)* 100).reset_index(name='percentage')
 Segments = Segments.round(1)
@@ -219,16 +142,8 @@ for i, v in enumerate(Segments['percentage']):
     b.set_ylabel('Segmentation')
     b.set_title('Customer Segmentation')
 
-
-# In[75]:
-
-
 #This is our RFM table
 RFM.head()
-
-
-# In[76]:
-
 
 #I will export the data to a CSV file and visualize it using Power BI.
 RFM.to_csv('RFM_table.csv', index=False)
