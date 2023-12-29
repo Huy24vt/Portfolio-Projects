@@ -29,9 +29,19 @@ Online Retail: This is a transnational data set which contains all the transacti
  EDA involved explore Sales data to answers few key questions:
 
  - What is the overall sales?
+   
+<img width="336" alt="image" src="https://github.com/Huy24vt/RFM-Segmentation/assets/130732635/61671bad-2104-4da4-91c4-467346656d74">
+
  - How do sales vary on a weekly and monthly basis?
  - How do sales vary on an hourly basis?
+
+<img width="389" alt="image" src="https://github.com/Huy24vt/RFM-Segmentation/assets/130732635/e8caf20a-a4ab-4372-9459-5cc74ca3dadd">
+
+   
  - Which days of the week have the highest sales performance?
+
+<img width="401" alt="image" src="https://github.com/Huy24vt/RFM-Segmentation/assets/130732635/ddef3ccc-af2d-4ef5-80e9-b09fcec51703">
+
 
  ### Data Analysis
 I created an RFM table by calculating the Recency (how recently a customer made a purchase), Frequency (how often a customer makes a purchase), and Monetary value (the monetary amount spent by a customer) for each customer. Afterward, I assigned scores based on the RFM values to create segments.
